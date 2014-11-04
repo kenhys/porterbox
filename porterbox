@@ -12,8 +12,8 @@ soup = bs4.BeautifulSoup(response.text)
 
 machine_entries = soup.find_all('tr')
 
-print('%-18s %-24s %s' % ("Architecture", "Hostname", "Access"))
-print('-' * 68)
+print('%-18s %-24s %-24s %s' % ("Architecture", "Hostname", "Access", "URL"))
+print('-' * 80)
 
 for machine_entry in machine_entries:
     machine_data = machine_entry.find_all('td')
@@ -26,7 +26,8 @@ for machine_entry in machine_entries:
             if access == "":
                 access = "[unknown]"
             machine_count += 1
-            print('%-18s %-24s %s' % (architecture, hostname, access))
+            url = machines_url + '?host=' + hostname.split('.')[0]
+            print('%-18s %-24s %-24s %s' % (architecture, hostname, access, url))
 
     except IndexError:
         # malformed entry, skip it
